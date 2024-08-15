@@ -1,7 +1,8 @@
-import { Elysia } from "elysia";
+import { app } from "./app";
+import { PORT, setup } from "./config/setup";
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+setup();
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+app.listen(PORT);
+
+console.log(`Hypergate operational on port ${PORT}`);

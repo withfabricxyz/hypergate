@@ -1,0 +1,24 @@
+name: Stiletto Tests
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        persist-credentials: false
+    - uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: latest
+
+    - name: install
+      run: bun i
+
+    - name: test
+      env:
+        INFURA_KEY: ${{ secrets.INFURA_KEY }}
+      run: bun test
