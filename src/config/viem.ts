@@ -5,7 +5,7 @@ import {
   createPublicClient,
   fallback,
 } from "viem";
-import { type Chain, base, foundry, mainnet } from "viem/chains";
+import { type Chain, arbitrum, base, foundry, mainnet, optimism, sepolia, zora } from "viem/chains";
 import { INFURA_KEY } from "./setup";
 
 ///////////////////////////////////////
@@ -15,11 +15,11 @@ import { INFURA_KEY } from "./setup";
 function infura(chain: Chain): HttpTransport | undefined {
   if (!INFURA_KEY) return undefined;
   const name = {
-    1: "mainnet",
-    3: "ropsten",
-    4: "rinkeby",
-    5: "goerli",
-    42: "kovan",
+    [mainnet.id]: "mainnet",
+    [base.id]: "base-mainnet",
+    [optimism.id]: "optimism-mainnet",
+    [arbitrum.id]: "arbitrum-mainnet",
+    [sepolia.id]: "sepolia",
   }[chain.id];
 
   return name ? http(`https://${name}.infura.io/v3/${INFURA_KEY}`) : undefined;
@@ -32,7 +32,7 @@ function transports(chain: Chain) {
   return fallback(fallbacks, { rank: true });
 }
 
-const chains: Chain[] = [foundry, mainnet, base];
+const chains: Chain[] = [foundry, mainnet, base, optimism, arbitrum, sepolia, zora];
 
 const clientCache = new Map<number, PublicClient>();
 
